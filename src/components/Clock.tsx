@@ -5,7 +5,7 @@ type State = {
 };
 
 type Props = {
-  clockName: string;
+  name: string;
 };
 
 export class Clock extends React.Component<Props> {
@@ -25,6 +25,13 @@ export class Clock extends React.Component<Props> {
     }, 1000);
   }
 
+  componentDidUpdate(prevProps: { name: string }): void {
+    if (prevProps.name !== this.props.name) {
+      // eslint-disable-next-line no-console
+      console.warn(`Renamed from ${prevProps.name} to ${this.props.name}`);
+    }
+  }
+
   // this code stops the timer
   componentWillUnmount(): void {
     window.clearInterval(this.timerId);
@@ -32,11 +39,11 @@ export class Clock extends React.Component<Props> {
 
   render(): ReactNode {
     const { today } = this.state;
-    const { clockName } = this.props;
+    const { name } = this.props;
 
     return (
       <div className="Clock">
-        <strong className="Clock__name">{clockName}</strong>
+        <strong className="Clock__name">{name}</strong>
 
         {' time is '}
 
